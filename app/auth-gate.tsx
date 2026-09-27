@@ -13,8 +13,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
       return response.json() as Promise<{ authenticated: boolean }>;
     }).then(session => {
       if (!active) return;
-      const target = !session.authenticated ? "/giris/" : path === "/giris/" || path === "/giris" ? "/" : null;
-      if (target && path !== target && path !== target.slice(0, -1)) { window.location.replace(target); return; }
+const target = !session.authenticated && !path.startsWith("/kurulum") ? "/giris/" : path === "/giris/" || path === "/giris" ? "/" : null;      if (target && path !== target && path !== target.slice(0, -1)) { window.location.replace(target); return; }
       setReady(true);
     }).catch(() => { if (active) setFailed(true); });
     return () => { active = false; };
